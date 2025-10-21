@@ -9,7 +9,16 @@ import BackToTop from "@/components/BackToTop";
 
 const Index = () => {
   return (
-
+    <div className="min-h-screen">
+      <Header />
+      <HeroSection />
+      <AboutSection />
+      <ResourcesSection />
+      <TestimonialsSection />
+      <ContactSection />
+      <Footer />
+      <BackToTop />
+    </div>
   );
 };
 

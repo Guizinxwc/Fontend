@@ -9,10 +9,11 @@ import { showSuccess, showError } from "@/utils/notifications";
 
 const Cadastro = () => {
   const [formData, setFormData] = useState({
-    nome,
-    email,
-    senha,
-    confirmarSenha);
+    nome: '',
+    email: '',
+    senha: '',
+    confirmarSenha: ''
+  });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -53,13 +54,13 @@ const Cadastro = () => {
     }
     
     const novoUsuario = {
-      id),
-      nome,
-      email,
-      senha,
-      tipo,
-      ativo,
-      dataCriacao).toISOString()
+      id: Date.now(),
+      nome: formData.nome,
+      email: formData.email,
+      senha: formData.senha,
+      tipo: 'Usuario',
+      ativo: true,
+      dataCriacao: new Date().toISOString()
     };
     
     usuarios.push(novoUsuario);
@@ -70,32 +71,78 @@ const Cadastro = () => {
   };
 
   return (
-
-          Criar Conta
-
-              Nome Completo
-               setFormData({...formData, nome)}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <UserPlus className="mx-auto h-12 w-12 text-primary" />
+          <CardTitle className="text-2xl">Criar Conta</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="nome">Nome Completo</Label>
+              <Input
+                id="nome"
+                type="text"
+                value={formData.nome}
+                onChange={(e) => setFormData({...formData, nome: e.target.value})}
+                required
               />
+            </div>
 
-              Email
-               setFormData({...formData, email)}
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                required
               />
+            </div>
 
-              Senha
-               setFormData({...formData, senha)}
+            <div>
+              <Label htmlFor="senha">Senha</Label>
+              <Input
+                id="senha"
+                type="password"
+                value={formData.senha}
+                onChange={(e) => setFormData({...formData, senha: e.target.value})}
+                required
               />
-              
+              <p className="text-xs text-muted-foreground mt-1">
                 Mínimo 8 caracteres, 1 maiúscula e 1 número
+              </p>
+            </div>
 
-              Confirmar Senha
-               setFormData({...formData, confirmarSenha)}
+            <div>
+              <Label htmlFor="confirmarSenha">Confirmar Senha</Label>
+              <Input
+                id="confirmarSenha"
+                type="password"
+                value={formData.confirmarSenha}
+                onChange={(e) => setFormData({...formData, confirmarSenha: e.target.value})}
+                required
               />
+            </div>
 
-            {error && {error}}
-            Cadastrar
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            
+            <Button type="submit" className="w-full">
+              Cadastrar
+            </Button>
 
+            <p className="text-center text-sm text-muted-foreground">
               Já tem conta?{" "}
-              <Link to="/login" className="text-primary hover);
+              <Link to="/login" className="text-primary hover:underline">
+                Fazer login
+              </Link>
+            </p>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
 export default Cadastro;
