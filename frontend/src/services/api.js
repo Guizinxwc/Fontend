@@ -1,12 +1,15 @@
 // Configuração da API para conectar com Spring Boot
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://localhost:8082/api';
 
-// Função auxiliar para fazer requisições
+const headers = {
+  'Content-Type': 'application/json',
+};
+
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      ...headers,
       ...options.headers,
     },
     ...options,
@@ -29,14 +32,14 @@ const apiRequest = async (endpoint, options = {}) => {
 
 // Serviços de autenticação
 export const authService = {
-  login: async (email, password) => {
+  login: (email, password) => {
     return apiRequest('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
   },
 
-  cadastro: async (nome, email, senha, tipo = 'Usuario') => {
+  cadastro: (nome, email, senha, tipo = 'Usuario') => {
     return apiRequest('/auth/cadastro', {
       method: 'POST',
       body: JSON.stringify({ nome, email, senha, tipo }),
@@ -46,29 +49,29 @@ export const authService = {
 
 // Serviços de recursos
 export const recursoService = {
-  listar: async () => {
+  listar: () => {
     return apiRequest('/recursos');
   },
 
-  listarAdmin: async () => {
+  listarAdmin: () => {
     return apiRequest('/recursos/admin');
   },
 
-  criar: async (recurso) => {
+  criar: (recurso) => {
     return apiRequest('/recursos', {
       method: 'POST',
       body: JSON.stringify(recurso),
     });
   },
 
-  atualizarStatus: async (id, ativo) => {
+  atualizarStatus: (id, ativo) => {
     return apiRequest(`/recursos/${id}/status`, {
       method: 'PUT',
-      body: JSON.stringify(ativo),
+      body: JSON.stringify({ ativo }),
     });
   },
 
-  deletar: async (id) => {
+  deletar: (id) => {
     return apiRequest(`/recursos/${id}`, {
       method: 'DELETE',
     });
@@ -77,39 +80,39 @@ export const recursoService = {
 
 // Serviços de depoimentos
 export const depoimentoService = {
-  listar: async () => {
+  listar: () => {
     return apiRequest('/depoimentos');
   },
 
-  listarAdmin: async () => {
+  listarAdmin: () => {
     return apiRequest('/depoimentos/admin');
   },
 
-  listarPendentes: async () => {
+  listarPendentes: () => {
     return apiRequest('/depoimentos/pendentes');
   },
 
-  criar: async (depoimento) => {
+  criar: (depoimento) => {
     return apiRequest('/depoimentos', {
       method: 'POST',
       body: JSON.stringify(depoimento),
     });
   },
 
-  aprovar: async (id) => {
+  aprovar: (id) => {
     return apiRequest(`/depoimentos/${id}/aprovar`, {
       method: 'PUT',
     });
   },
 
-  alterarVisibilidade: async (id, visivel) => {
+  alterarVisibilidade: (id, visivel) => {
     return apiRequest(`/depoimentos/${id}/visibilidade`, {
       method: 'PUT',
-      body: JSON.stringify(visivel),
+      body: JSON.stringify({ visivel }),
     });
   },
 
-  deletar: async (id) => {
+  deletar: (id) => {
     return apiRequest(`/depoimentos/${id}`, {
       method: 'DELETE',
     });
@@ -118,50 +121,50 @@ export const depoimentoService = {
 
 // Serviços de contatos
 export const contatoService = {
-  listar: async () => {
+  listar: () => {
     return apiRequest('/contatos');
   },
 
-  listarNaoLidos: async () => {
+  listarNaoLidos: () => {
     return apiRequest('/contatos/nao-lidos');
   },
 
-  contarNaoLidos: async () => {
+  contarNaoLidos: () => {
     return apiRequest('/contatos/count-nao-lidos');
   },
 
-  criar: async (contato) => {
+  criar: (contato) => {
     return apiRequest('/contatos', {
       method: 'POST',
       body: JSON.stringify(contato),
     });
   },
 
-  marcarComoLido: async (id, lido) => {
+  marcarComoLido: (id, lido) => {
     return apiRequest(`/contatos/${id}/lido`, {
       method: 'PUT',
-      body: JSON.stringify(lido),
+      body: JSON.stringify({ lido }),
     });
   },
 };
 
 // Serviços de usuários
 export const usuarioService = {
-  listar: async () => {
+  listar: () => {
     return apiRequest('/usuarios');
   },
 
-  alterarTipo: async (id, tipo) => {
+  alterarTipo: (id, tipo) => {
     return apiRequest(`/usuarios/${id}/tipo`, {
       method: 'PUT',
-      body: JSON.stringify(tipo),
+      body: JSON.stringify({ tipo }),
     });
   },
 
-  alterarStatus: async (id, ativo) => {
+  alterarStatus: (id, ativo) => {
     return apiRequest(`/usuarios/${id}/status`, {
       method: 'PUT',
-      body: JSON.stringify(ativo),
+      body: JSON.stringify({ ativo }),
     });
   },
 };
