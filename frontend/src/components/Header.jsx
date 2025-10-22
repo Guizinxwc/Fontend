@@ -6,60 +6,94 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigationItems = [
-    { label, href,
-    { label, href,
-    { label, href,
-    { label, href,
-    { label, href,
+    { label: "Início", href: "#hero" },
+    { label: "Sobre", href: "#about" },
+    { label: "Recursos", href: "#resources" },
+    { label: "Depoimentos", href: "#testimonials" },
+    { label: "Contato", href: "#contact" }
   ];
 
   const scrollToSection = (href) => {
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior);
+      element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMenuOpen(false);
   };
 
   return (
-
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-
-              juntos pelo autismo
-              Juntos pela inclusão
+          <div className="flex items-center gap-2">
+            <Heart className="w-8 h-8 text-red-500" />
+            <div>
+              <h1 className="text-xl font-bold text-foreground">Juntos pelo Autismo</h1>
+              <p className="text-xs text-muted-foreground">Juntos pela inclusão</p>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
-           (
-               scrollToSection(item.href)}
-                className="text-foreground hover))}
+          <nav className="hidden md:flex items-center gap-8">
+            {navigationItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => scrollToSection(item.href)}
+                className="text-foreground hover:text-primary transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
           {/* Auth Buttons */}
-           window.location.href = '/login'}>
+          <div className="hidden md:flex items-center gap-4">
+            <Button variant="ghost" onClick={() => window.location.href = '/login'}>
               Entrar
-            
-             window.location.href = '/cadastro'}>
+            </Button>
+            <Button onClick={() => window.location.href = '/cadastro'}>
               Cadastrar
+            </Button>
+          </div>
 
           {/* Mobile Menu Button */}
-           setIsMenuOpen(!isMenuOpen)}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ?  : }
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </Button>
+        </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          
+          <div className="md:hidden py-4 border-t">
+            <div className="flex flex-col gap-4">
               {navigationItems.map((item) => (
-                 scrollToSection(item.href)}
-                  className="text-left text-foreground hover))}
-              
-                 window.location.href = '/login'}>
+                <button
+                  key={item.label}
+                  onClick={() => scrollToSection(item.href)}
+                  className="text-left text-foreground hover:text-primary transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <div className="flex flex-col gap-2 pt-4 border-t">
+                <Button variant="ghost" onClick={() => window.location.href = '/login'}>
                   Entrar
-                
-                 window.location.href = '/cadastro'}>
+                </Button>
+                <Button onClick={() => window.location.href = '/cadastro'}>
                   Cadastrar
-
+                </Button>
+              </div>
+            </div>
+          </div>
         )}
-
+      </div>
+    </header>
   );
 };
 

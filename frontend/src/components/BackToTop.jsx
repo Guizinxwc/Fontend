@@ -20,8 +20,9 @@ const BackToTop = () => {
 
   const scrollToTop = () => {
     window.scrollTo({
-      top,
-      behavior);
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   if (!isVisible) {
@@ -29,7 +30,13 @@ const BackToTop = () => {
   }
 
   return (
-
+    <Button
+      onClick={scrollToTop}
+      className="fixed bottom-8 right-8 z-50 rounded-full w-12 h-12 p-0 shadow-lg"
+      size="icon"
+    >
+      <ArrowUp className="w-5 h-5" />
+    </Button>
   );
 };
 
