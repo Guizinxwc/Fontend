@@ -24,7 +24,7 @@ const GerenciarContatos = () => {
     }
     setUser(parsedUser);
     fetchContatos();
-  }, []);
+  }, [navigate]);
 
   const fetchContatos = () => {
     const contatos = JSON.parse(localStorage.getItem('contatos') || '[]');
@@ -50,60 +50,90 @@ const GerenciarContatos = () => {
   if (!user) return null;
 
   return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-8">
+        <Button onClick={() => navigate("/dashboard")} variant="outline">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Voltar
+        </Button>
+        <h1 className="text-3xl font-bold">Gerenciar Contatos</h1>
+        <Badge variant="secondary">
+          {contatos.filter((c) => !c.lido).length} não lidos
+        </Badge>
+      </div>
 
-           navigate("/dashboard")} variant="outline">
-            
-            Voltar
-          
-          Gerenciar Contatos
-          
-            {contatos.filter((c) => !c.lido).length} não lidos
-
-          {contatos.length === 0 ? (
-
-                Nenhum contato recebido ainda.
-
-          ) : (
-            contatos.map((contato) => (
-
-                          {contato.name}
-                          
-                            {formatarData(contato.dataEnvio)}
-
-                        {!contato.lido && (
-                          
-                            Novo
-                          
-                        )}
-
-                          {contato.email}
-                        
-                        {contato.phone && (
-
-                            {contato.phone}
-                          
-                        )}
-
-                          {contato.subject}
-
-                          {contato.message}
-
-                     marcarComoLido(contato.id)}
-                      className="ml-4"
-                    >
-                      {contato.lido ? (
-
-                          Marcar não lido
-                        
-                      ) : (
-
-                          Marcar como lido
-                        
-                      )}
-
-            ))
-          )}
-
+      <div className="space-y-6">
+        {contatos.length === 0 ? (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <p className="text-gray-500">Nenhum contato recebido ainda.</p>
+            </CardContent>
+          </Card>
+        ) : (
+          contatos.map((contato) => (
+            <Card key={contato.id} className={!contato.lido ? "border-blue-200 bg-blue-50" : ""}>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5" />
+                    {contato.name}
+                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">
+                      {formatarData(contato.dataEnvio)}
+                    </span>
+                    {!contato.lido && (
+                      <Badge variant="default">
+                        Novo
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-gray-500" />
+                  <span>{contato.email}</span>
+                </div>
+                {contato.phone && (
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-4 h-4 text-gray-500" />
+                    <span>{contato.phone}</span>
+                  </div>
+                )}
+                <div>
+                  <h4 className="font-semibold mb-2">Assunto:</h4>
+                  <p>{contato.subject}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Mensagem:</h4>
+                  <p className="text-gray-700">{contato.message}</p>
+                </div>
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => marcarComoLido(contato.id)}
+                    variant="outline"
+                    size="sm"
+                  >
+                    {contato.lido ? (
+                      <>
+                        <EyeOff className="w-4 h-4 mr-2" />
+                        Marcar não lido
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="w-4 h-4 mr-2" />
+                        Marcar como lido
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
+    </div>
   );
 };
 

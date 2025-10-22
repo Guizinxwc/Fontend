@@ -1,7 +1,28 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = 'http= () => {
-  const [content, setContent] = useState({ resources);
+const API_URL = 'http://localhost:3001/api';
+
+export const useContent = () => {
+  const [content, setContent] = useState({ 
+    resources: [
+      {
+        category: 'Educacional',
+        items: []
+      },
+      {
+        category: 'Terapeutico', 
+        items: []
+      },
+      {
+        category: 'Familiar',
+        items: []
+      },
+      {
+        category: 'Profissional',
+        items: []
+      }
+    ]
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +35,7 @@ const API_URL = 'http= () => {
       const data = await response.json();
       setContent(data);
     } catch (error) {
-      console.error('Erro ao carregar recursos, error);
+      console.error('Erro ao carregar recursos:', error);
       // Fallback para dados locais se API falhar
       const saved = localStorage.getItem('siteContent');
       if (saved) {
